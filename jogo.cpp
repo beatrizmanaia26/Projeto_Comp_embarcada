@@ -1,17 +1,4 @@
 
-//DUVIDAS
-
-//como pegar os segundos para temporizar a resdposta 
-
-//PODE DEIXAR 1 QUESTAO NAO RESPONDIDA!!
-//pq nao reinicia quando demora mto tempo pra responder?
-//precisa segurar por um tempo o botao pra considerar a resp
-//o que fez pra da tempo da pessoa responder(pra comentar no codigo)
-//quando entra na condicao do else da funcao reinicia
-//nnc aparece tempo esgotado
-
-//ve td q n ta funcionando do thinkercad
-
 #include <LiquidCrystal.h>
 #include <time.h>
 
@@ -38,7 +25,6 @@
 #define RESET asm ("jmp (0x0000)")
 //função que faz o arduino "reseta"
 //volta no loop
-
 
 //Perguntas
 //Faceis:
@@ -73,15 +59,16 @@ const char* perguntas_Dificeis[] = {
   "Frozen lancou em 2012?", 
   "a +(ou) 1 = 1?", 
   "A instrucao AJMP tem 2 MC?",
-  "Saruê e um marsupial?", 
+  "Sarue e um marsupial?", 
   "Agumon e um Pokemon?"
 };
 
 const char* respostas_Dificeis[] = {
   "n", "s", "s", "s", "n"
 };
-//variavel para nao repetir as perguntas
+//variavel para nao repetir as perguntas, comparar quais perguntas ja foram feitas
 int variav = -1; //-1 pq random de 0 a 5
+int variav2 = -1;
 
 //leds
 int pinLedVer = 9;
@@ -157,7 +144,7 @@ void setup(){
 
 void loop(){
   //arrays para guardar os numeros aleatorios do led e da resposta da pessoa para compar e aparecer correto ou nao no display
-  inicia = 2;//para iniciar na parte de perguntas
+  inicia = 3;//para iniciar na parte de perguntas
   int leds[10];
   int ledsResp[10];//guarda resposta da fase de memoria para compára com o que usuario pressionou
  
@@ -305,19 +292,29 @@ void loop(){
     lcd_1.print("ou Nao");
     delay(2000);
     //perguntas randomizadas facil
-    int contWF = 0;  //contador while Facil
-     while(contWF < 3){//para ter 3 perguntas faceis e 2 dificieis
-      int pergAleFacil = random(0,5); //num aleatorio entre 0 e 5
-       if(variav != pergAleFacil){//nao repetir pergunta
-          contQuestao = contQuestao + 1;
-          contWF = contWF + 1;
-    	    lcd_1.clear();
-          sprintf(variavel,"Questao %d de 5", contQuestao);
+    int contQ = 0;  //contador perguntas
+    while(contQ < 5){//para ter 3 perguntas faceis e 2 dificieis
+      int pergAle = random(0,5); //num aleatorio entre 0 e 5
+       if(variav != pergAle && variav2 != pergAle){//nao repetir pergunta
+          contQ = contQ + 1;
+    	  lcd_1.clear();
+          sprintf(variavel,"Questao %d de 5", contQ);
           lcd_1.print(variavel);
           delay(2000);
           lcd_1.clear();
-          variav = pergAleFacil;//indice da pergunta
-          String perg_display = perguntas_Faceis[pergAleFacil];
+         if(variav == -1){
+           variav = pergAle;//indice da pergunta
+         }else{//se variav tem algo esse go passa para variav2
+           variav2 = variav;
+           variav = pergAle;
+         }
+         //perguntas randomizadas dificeis
+         String perg_display = "";
+         if(contQ<4){
+         	perg_display = perguntas_Faceis[pergAle];
+         }else{
+           	perg_display = perguntas_Dificeis[pergAle];
+         }
           //pergunta scroll na tela
           lcd_1.print(perg_display);
           delay(1000); // aguarda para ler a pergunta
@@ -329,6 +326,7 @@ void loop(){
         		delay(200); // ajusta a velocidade do scroll
       		}
          }
+         delay(2000);
          lcd_1.clear();//para aparecer a pergunta so uma vez no display
          //Serial.println(perg_display);
          //verificar se algum botao 
@@ -345,45 +343,85 @@ void loop(){
            delay(1000);
            int bot1 = digitalRead(pinBot1);
            int bot2 = digitalRead(pinBot2);
-           if (bot1 == 0) { //botao 1 é sim (0 quando pressionado pq eh input pull up)
-               resp = "s";
-               aperta = 1; //botao pressionado
-               if(respostas_Faceis[variav] == resp){
-                 lcd_1.clear();
-                 lcd_1.print("Correto");
-                 lcd_1.setCursor(0, 1); 
-                 lcd_1.print("  *Sim    Nao    ");
-                 delay(2000);
-                 break;     		 
-               }else{//se respostas nao forem iguais, errou
-                 lcd_1.clear();
-                 lcd_1.print(" Errou :(  ");
-                 lcd_1.setCursor(0, 1); 
-                 lcd_1.print("   Sim   *Nao    ");
-                 delay(2000);
-                 RESET;
-               }
-           }else if (bot2 == 0) {//nao
-              resp = "n";
-              aperta = 1;
-              if(respostas_Faceis[variav] == resp){
-                lcd_1.clear();
-                lcd_1.print("Correto");
-                lcd_1.setCursor(0, 1); 
-                lcd_1.print("   Sim   *Nao    ");
-                delay(2000);
-                break;
-               }else{
-                    lcd_1.clear();
-                    lcd_1.print(" Errou :(  ");
-                    lcd_1.setCursor(0, 1); 
-           	 		lcd_1.print("  *Sim    Nao    ");
-                    delay(2000);
-                    RESET;
-               }
-          }//chaves do else if
-         }//chaves do for_pergunta 
-        //saiu do for,tempo ja chego no 0 e botoes nao foram clicados = pular questao
+           if(contQ<4){//Pergunta Facil
+             if (bot1 == 0) { //botao 1 é sim (0 quando pressionado pq eh input pull up)
+                 resp = "s";
+                 aperta = 1; //botao pressionado
+                 if(respostas_Faceis[variav] == resp){
+                   lcd_1.clear();
+                   lcd_1.print("Correto");
+                   lcd_1.setCursor(0, 1); 
+                   lcd_1.print("  *Sim    Nao    ");
+                   delay(2000);
+                   break;     		 
+                 }else{//se respostas nao forem iguais, errou
+                   lcd_1.clear();
+                   lcd_1.print(" Errou :(  ");
+                   lcd_1.setCursor(0, 1); 
+                   lcd_1.print("   Sim   *Nao    ");
+                   delay(2000);
+                   RESET;
+                 }
+             }else if (bot2 == 0) {//nao
+                resp = "n";
+                aperta = 1;
+                if(respostas_Faceis[variav] == resp){
+                  lcd_1.clear();
+                  lcd_1.print("Correto");
+                  lcd_1.setCursor(0, 1); 
+                  lcd_1.print("   Sim   *Nao    ");
+                  delay(2000);
+                  break;
+                 }else{
+                   lcd_1.clear();
+                   lcd_1.print(" Errou :(  ");
+                   lcd_1.setCursor(0, 1); 
+                   lcd_1.print("  *Sim    Nao    ");
+                   delay(2000);
+                   RESET;
+                 }
+            }//chaves do else if
+           }else{//Perguntas dificeis
+             if (bot1 == 0) { //botao 1 é sim (0 quando pressionado pq eh input pull up)
+                 resp = "s";
+                 aperta = 1; //botao pressionado
+                 if(respostas_Dificeis[variav] == resp){
+                   lcd_1.clear();
+                   lcd_1.print("Correto");
+                   lcd_1.setCursor(0, 1); 
+                   lcd_1.print("  *Sim    Nao    ");
+                   delay(2000);
+                   break;     		 
+                 }else{//se respostas nao forem iguais, errou
+                   lcd_1.clear();
+                   lcd_1.print(" Errou :(  ");
+                   lcd_1.setCursor(0, 1); 
+                   lcd_1.print("   Sim   *Nao    ");
+                   delay(2000);
+                   RESET;
+                 }
+             }else if (bot2 == 0) {//nao
+                resp = "n";
+                aperta = 1;
+                if(respostas_Dificeis[variav] == resp){
+                  lcd_1.clear();
+                  lcd_1.print("Correto");
+                  lcd_1.setCursor(0, 1); 
+                  lcd_1.print("   Sim   *Nao    ");
+                  delay(2000);
+                  break;
+                 }else{
+                   lcd_1.clear();
+                   lcd_1.print(" Errou :(  ");
+                   lcd_1.setCursor(0, 1); 
+                   lcd_1.print("  *Sim    Nao    ");
+                   delay(2000);
+                   RESET;
+                 }
+            }
+           }
+        }//chaves do for_pergunta 
+        //saiu do for,tempo ja chego no 0 e botoes nao foram clicados (aperta == 0), = pular questao
         if(aperta == 0){
           pularQuestao = pularQuestao + 1; //para permitir que o jogador nao responda uma pergunta
           lcd_1.clear();
@@ -397,14 +435,76 @@ void loop(){
           }//chaves do if
         }//chaves do if
           delay(2000);
-          //lcd_1.print(" Tempo esgotado ");
-          //delay(2000);
          }//chaves do if
-         //lcd_1.print(" Tempo esgotado ");
-        // delay(2000);
        }//chaves do if
       delay(400); //nao clicar duplo no botao
-  }
+    inicia = 3;//quando acaba as peguntas ir pra fase 3
+  }//if == 2
+  else if(inicia == 3){
+    lcd_1.clear();
+    lcd_1.print("Pergunta Final!");
+    delay(2000);
+    lcd_1.clear();
+    lcd_1.print("Gostou do quiz?");
+    delay(1000);
+    int aperta = 0;
+        for(int tempoRestante = 10;tempoRestante>=0;tempoRestante--){
+         // Atualiza o display com os segundos restantes
+           lcd_1.clear();
+           lcd_1.print("Tempo:");
+           lcd_1.setCursor(8, 0); // Move esquerda o texto
+           lcd_1.print(tempoRestante);
+           lcd_1.setCursor(0, 1); 
+           lcd_1.print("   Sim    Nao    ");
+           delay(1000);
+           int bot1 = digitalRead(pinBot1);
+           int bot2 = digitalRead(pinBot2);
+             if (bot1 == 0) { //botao 1 é sim (0 quando pressionado pq eh input pull up)
+                aperta = 1; //botao pressionado
+                lcd_1.clear();
+                lcd_1.print("Correto");
+                lcd_1.setCursor(0, 1); 
+                lcd_1.print("  *Sim    Nao    ");
+                delay(2000);
+                break;     		
+             }else if (bot2 == 0) {//nao
+                aperta = 1;
+                lcd_1.clear();
+                lcd_1.print("Poxa ;-;");
+                lcd_1.setCursor(0, 1); 
+                lcd_1.print("  *Sim    Nao    ");
+                delay(2000);
+                RESET;
+            }//chaves do else if
+        }//chaves do for_pergunta 
+        //saiu do for,tempo ja chego no 0 e botoes nao foram clicados = pular questao
+        if(aperta == 0){
+          lcd_1.clear();
+          lcd_1.print("Tempo esgotado!");
+          delay(1000);
+          lcd_1.clear();
+          lcd_1.print("Perdeu a chance");
+          delay(2000);
+          RESET;
+        }
+    lcd_1.clear();
+    lcd_1.print("Parabens <3");
+    //buzzer fim
+     for (int thisNote = 0; thisNote < notesFinal * 2; thisNote = thisNote + 2) {
+      divider = melodiaFinal[thisNote + 1];
+      if (divider > 0) {
+        noteDuration = (wholenoteFim) / divider;
+      } else if (divider < 0) {
+        noteDuration = (wholenoteFim) / abs(divider);
+        noteDuration *= 1.5; 
+      }
+      //tocar musica
+      tone(pinBuz, melodiaFinal[thisNote], noteDuration*0.9);
+      delay(noteDuration);
+      noTone(pinBuz);
+    }
+    RESET;
+  }//chave do if inicia == 3
 }
 
 void reinicia(){
@@ -418,16 +518,3 @@ void reinicia(){
    	RESET;
   }
 }
- //buzzer fim
- //    for (int thisNote = 0; thisNote < notesFinal * 2; thisNote = thisNote + 2) {
- //     divider = melodiaFinal[thisNote + 1];
- //     if (divider > 0) {
- //       noteDuration = (wholenoteFim) / divider;
- //     } else if (divider < 0) {
- //       noteDuration = (wholenoteFim) / abs(divider);
- //       noteDuration *= 1.5; 
- //     }
- //     tone(pinBuz, melodiaFinal[thisNote], noteDuration*0.9);
- //     delay(noteDuration);
- //     noTone(pinBuz);
- // }
