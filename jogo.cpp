@@ -1,12 +1,21 @@
+
 //DUVIDAS
 
 //como pegar os segundos para temporizar a resdposta 
 
-//Ver se ta repetindo a pergunta na msm rodada
+//PODE DEIXAR 1 QUESTAO NAO RESPONDIDA!!
+//pq nao reinicia quando demora mto tempo pra responder?
+//precisa segurar por um tempo o botao pra considerar a resp
+//o que fez pra da tempo da pessoa responder(pra comentar no codigo)
+//quando entra na condicao do else da funcao reinicia
+//nnc aparece tempo esgotado
+
+//ve td q n ta funcionando do thinkercad
 
 #include <LiquidCrystal.h>
 #include <time.h>
-//buzzer
+
+//buzzer vitoria
 #define NOTE_F4  349
 #define NOTE_GS4 415
 #define NOTE_A4  440
@@ -61,11 +70,11 @@ const char* respostas_Faceis[] = {
 };
 
 const char* perguntas_Dificeis[] = {
-  "Frozen lançou em 2012?", 
+  "Frozen lancou em 2012?", 
   "a +(ou) 1 = 1?", 
-  "A instrução AJMP tem 2 MC?",
-  "Saruê é um marsupial?", 
-  "Agumon é um Pokemon?"
+  "A instrucao AJMP tem 2 MC?",
+  "Saruê e um marsupial?", 
+  "Agumon e um Pokemon?"
 };
 
 const char* respostas_Dificeis[] = {
@@ -118,18 +127,22 @@ int melodiaFinal[] = {
 int wholenoteFim = (60000 * 4) / 88;
 int notesFinal = sizeof(melodiaFinal) / sizeof(melodiaFinal[0]) / 2;
 
+
+//segunda fase 
+char variavel[30]; //variavel para guardar sprintf
+
 void setup(){
   //aparecer texto no display em linhas diferentes
   lcd_1.begin(16, 2);
-  lcd_1.setCursor(0, 0);
-  lcd_1.print("Seja Bem Vindo!");
-  lcd_1.setCursor(0, 1);
-  lcd_1.print("Pressione inicia");
+  //lcd_1.setCursor(0, 0);
+  //lcd_1.print("Seja Bem Vindo!");
+  //lcd_1.setCursor(0, 1);
+  //lcd_1.print("Pressione inicia");
   
   //declarar pinos como input ou output
   pinMode(pinLedVer,OUTPUT);
   pinMode(pinLedAm,OUTPUT);
-  pinMode(pinBotIn,INPUT_PULLUP);
+  pinMode(pinBotIn,INPUT_PULLUP); //botao de iniciar e reiniciar
   pinMode(pinBot1,INPUT_PULLUP);
   pinMode(pinBot2,INPUT_PULLUP);
   pinMode(pinBuz,OUTPUT);
@@ -142,21 +155,24 @@ void setup(){
   Serial.begin(9600);
 }
 
-void loop()
-{
+void loop(){
   //arrays para guardar os numeros aleatorios do led e da resposta da pessoa para compar e aparecer correto ou nao no display
-  //inicia = 2;//para iniciar na parte de perguntas
+  inicia = 2;//para iniciar na parte de perguntas
   int leds[10];
-  int ledsResp[10];
+  int ledsResp[10];//guarda resposta da fase de memoria para compára com o que usuario pressionou
+ 
   //segunda fase
-  String resp = " ";
+  int contQuestao = 0;
+  int pularQuestao = 0; //se tempo chegar no 0 faço valer 1 e se passar de 1 reinicia jogo
+  int tempoRestante = 10; //segundos para jogador escolher a resposta
+  char* resp = " ";
   if(inicia == 0){
      lcd_1.setCursor(0, 0);
   	 lcd_1.print("Seja Bem Vindo!");
      lcd_1.setCursor(0, 1);
      lcd_1.print("Pressione inicia");
   }
-  // se clicar no botao de iniciar (inicia==1)
+  // se clicar no botao de iniciar (inicia==1) e começa jogo
   if(inicia == 1){  
     lcd_1.clear();
     lcd_1.print("Iniciando o jogo");
@@ -168,7 +184,7 @@ void loop()
     delay(500);
     //cria 10 numeros aleatorioso
     for(int cont = 0; cont<10;cont++){
-      int numAle = random(0,2); //num aleatorio entre 0 e 1
+      int numAle = random(0,2); //num aleatorio entre 0 e 1 para leds
       delay(500);
       //Serial.println(numAle);
       //se numero aleatorio for 1 adiciona valor no array e o pino verde pisca (acende e apaga) e pino amarelo apaga 
@@ -176,7 +192,6 @@ void loop()
         digitalWrite(pinLedVer,HIGH);
         delay(200);
         leds[cont] = 1;
-        //Serial.println(leds[cont]);
         digitalWrite(pinLedVer,LOW);
         digitalWrite(pinLedAm,LOW);
       }else{
@@ -199,7 +214,7 @@ void loop()
   //ver 10x a tentativa da pessoa de acertar a sequencia  
     for(int i = 0; i<10; i++){
       //se pessoa clicar no botao1(ele fica 0 pq eh pullup) guarda 1 no arrayresp
-     //mantem o while em 5seg
+     //mantem o while em 5seg para pessoa conseguir responder
       unsigned long startTime = millis();
       while (millis() - startTime < 5000) { // 10 segundos no while
         //cria variavel dos outros botoes para guardar no array e comparar com array leds
@@ -222,7 +237,7 @@ void loop()
       lcd_1.setCursor(12, 0);
       //printa sequencia
       lcd_1.print(i+1);
-      if(ledsResp[i] == leds[i]){
+      if(ledsResp[i] == leds[i]){//se numero arrmaazenado no array leds for = a respostas do botao ta certo
     	lcd_1.setCursor(0, 1);
         lcd_1.print("Correto");
       }else{
@@ -233,7 +248,8 @@ void loop()
         lcd_1.setCursor(0, 0);
         lcd_1.print("Melhore...");
         lcd_1.setCursor(5,1);
-        lcd_1.print("( -__-)");
+        lcd_1.print("( --)");
+        
         //buzzer perdeu
       for (int thisNote = 0; thisNote < notesPerdeu * 2; thisNote = thisNote + 2) {
     	divider = melodiaPerdeu[thisNote + 1];
@@ -248,7 +264,7 @@ void loop()
     	noTone(pinBuz);
   	  }
         delay(2000);
-		inicia = 0;
+		    inicia = 0; 
         return;//volta pro inicio
       }
       delay(400);
@@ -269,8 +285,9 @@ void loop()
     noTone(pinBuz);
   }
   delay(2000);
-  inicia = 2;
+  inicia = 2; //se acertou todas as sequencias vai para a segunda fase
   }//chaves do if == 1
+  
   else if(inicia == 2){//2 parte
     lcd_1.clear();
     lcd_1.print("Bem Vindo");
@@ -288,67 +305,117 @@ void loop()
     lcd_1.print("ou Nao");
     delay(2000);
     //perguntas randomizadas facil
-    //contador while
-    int contW = 0;
-     while(contW != 4){
-      int pergAleFacil = random(0,6); //num aleatorio entre 0 e 5
-       if(variav != pergAleFacil){
-         lcd_1.clear();
-         variav = pergAleFacil;
-         String perg_display = perguntas_Faceis[pergAleFacil];
-         //pergunta scroll na tela
-         lcd_1.print(perg_display);
-         delay(1000); // aguarda para ler a pergunta
-         // Exibe a pergunta completamente, se couber no display
-      	 if (perg_display.length() > 16) {
-      		// Scroll da pergunta
+    int contWF = 0;  //contador while Facil
+     while(contWF < 3){//para ter 3 perguntas faceis e 2 dificieis
+      int pergAleFacil = random(0,5); //num aleatorio entre 0 e 5
+       if(variav != pergAleFacil){//nao repetir pergunta
+          contQuestao = contQuestao + 1;
+          contWF = contWF + 1;
+    	    lcd_1.clear();
+          sprintf(variavel,"Questao %d de 5", contQuestao);
+          lcd_1.print(variavel);
+          delay(2000);
+          lcd_1.clear();
+          variav = pergAleFacil;//indice da pergunta
+          String perg_display = perguntas_Faceis[pergAleFacil];
+          //pergunta scroll na tela
+          lcd_1.print(perg_display);
+          delay(1000); // aguarda para ler a pergunta
+          // Exibe a pergunta completamente, se couber no display
+      	  if (perg_display.length() > 16) {
+      		// Scroll da pergunta (-16 para caber no display)
         	for (int i = 0; i < perg_display.length() - 16; i++) {
         		lcd_1.scrollDisplayLeft();
         		delay(200); // ajusta a velocidade do scroll
       		}
          }
          lcd_1.clear();//para aparecer a pergunta so uma vez no display
-         
          //Serial.println(perg_display);
-         
-         //contagem regressiva de tempo
-         unsigned long startTime = millis();
- 		 unsigned long duration = 10000; // 10 segundos
- 		 int secondsRemaining = duration / 1000; // Converte para segundos
- 		 while (millis() - startTime < duration) {
-   		 // Atualiza o display com os segundos restantes
+         //verificar se algum botao 
+        int aperta = 0;
+        for(int tempoRestante = 10;tempoRestante>=0;tempoRestante--){
+         // Atualiza o display com os segundos restantes
            lcd_1.clear();
            lcd_1.print("Tempo:");
            lcd_1.setCursor(8, 0); // Move esquerda o texto
-           lcd_1.print(secondsRemaining); 
+           //lcd_1.print(secondsRemaining); 
+           lcd_1.print(tempoRestante);
            lcd_1.setCursor(0, 1); 
            lcd_1.print("   Sim    Nao    ");
+           delay(1000);
            int bot1 = digitalRead(pinBot1);
            int bot2 = digitalRead(pinBot2);
-           if (bot1 == 0) { //sim
+           if (bot1 == 0) { //botao 1 é sim (0 quando pressionado pq eh input pull up)
                resp = "s";
-              break;
+               aperta = 1; //botao pressionado
+               if(respostas_Faceis[variav] == resp){
+                 lcd_1.clear();
+                 lcd_1.print("Correto");
+                 lcd_1.setCursor(0, 1); 
+                 lcd_1.print("  *Sim    Nao    ");
+                 delay(2000);
+                 break;     		 
+               }else{//se respostas nao forem iguais, errou
+                 lcd_1.clear();
+                 lcd_1.print(" Errou :(  ");
+                 lcd_1.setCursor(0, 1); 
+                 lcd_1.print("   Sim   *Nao    ");
+                 delay(2000);
+                 RESET;
+               }
            }else if (bot2 == 0) {//nao
               resp = "n";
-              break;
+              aperta = 1;
+              if(respostas_Faceis[variav] == resp){
+                lcd_1.clear();
+                lcd_1.print("Correto");
+                lcd_1.setCursor(0, 1); 
+                lcd_1.print("   Sim   *Nao    ");
+                delay(2000);
+                break;
+               }else{
+                    lcd_1.clear();
+                    lcd_1.print(" Errou :(  ");
+                    lcd_1.setCursor(0, 1); 
+           	 		lcd_1.print("  *Sim    Nao    ");
+                    delay(2000);
+                    RESET;
+               }
           }//chaves do else if
-           delay(1000);
-           secondsRemaining--;
-         }//chaves do while
+         }//chaves do for_pergunta 
+        //saiu do for,tempo ja chego no 0 e botoes nao foram clicados = pular questao
+        if(aperta == 0){
+          pularQuestao = pularQuestao + 1; //para permitir que o jogador nao responda uma pergunta
+          lcd_1.clear();
+          lcd_1.print("Tempo esgotado!");
+          delay(1000);
+          if(pularQuestao > 1){ //jogador nao responder mais dem 1 pergunta
+            lcd_1.clear();
+            lcd_1.print("Perdeu a chance");
+            delay(2000);
+            RESET;
+          }//chaves do if
+        }//chaves do if
+          delay(2000);
+          //lcd_1.print(" Tempo esgotado ");
+          //delay(2000);
+         }//chaves do if
+         //lcd_1.print(" Tempo esgotado ");
+        // delay(2000);
        }//chaves do if
       delay(400); //nao clicar duplo no botao
-     }//chaves do WHILE
-  }//chaves do if == 2
+  }
 }
 
 void reinicia(){
   lcd_1.clear();
-  if(inicia == 0){
+  if(inicia == 0){//se botao foi clicado
     inicia = 1;
   }else{
-    lcd_1.print("Reiniciando...");
-    inicia = 0;
-    RESET; 
+    //lcd_1.clear();
+    //lcd_1.print("Reiniciando...");
+    //delay(2000);
+   	RESET;
   }
 }
  //buzzer fim
