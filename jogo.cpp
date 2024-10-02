@@ -1,6 +1,8 @@
-
 #include <LiquidCrystal.h>
 #include <time.h>
+
+//aviso que tempo ta acabando
+#define RE 294
 
 //buzzer vitoria
 #define NOTE_F4  349
@@ -121,10 +123,6 @@ char variavel[30]; //variavel para guardar sprintf
 void setup(){
   //aparecer texto no display em linhas diferentes
   lcd_1.begin(16, 2);
-  //lcd_1.setCursor(0, 0);
-  //lcd_1.print("Seja Bem Vindo!");
-  //lcd_1.setCursor(0, 1);
-  //lcd_1.print("Pressione inicia");
   
   //declarar pinos como input ou output
   pinMode(pinLedVer,OUTPUT);
@@ -144,7 +142,7 @@ void setup(){
 
 void loop(){
   //arrays para guardar os numeros aleatorios do led e da resposta da pessoa para compar e aparecer correto ou nao no display
-  inicia = 3;//para iniciar na parte de perguntas
+  inicia=2;
   int leds[10];
   int ledsResp[10];//guarda resposta da fase de memoria para compára com o que usuario pressionou
  
@@ -237,7 +235,7 @@ void loop(){
         lcd_1.setCursor(5,1);
         lcd_1.print("( --)");
         
-        //buzzer perdeu
+      //buzzer perdeu
       for (int thisNote = 0; thisNote < notesPerdeu * 2; thisNote = thisNote + 2) {
     	divider = melodiaPerdeu[thisNote + 1];
     	if (divider > 0) {
@@ -310,9 +308,9 @@ void loop(){
          }
          //perguntas randomizadas dificeis
          String perg_display = "";
-         if(contQ<4){
+         if(contQ<4){//3 perg faceis
          	perg_display = perguntas_Faceis[pergAle];
-         }else{
+         }else{//2 dificeis (pq contQ<5, 5-3 = 2
            	perg_display = perguntas_Dificeis[pergAle];
          }
           //pergunta scroll na tela
@@ -332,7 +330,11 @@ void loop(){
          //verificar se algum botao 
         int aperta = 0;
         for(int tempoRestante = 10;tempoRestante>=0;tempoRestante--){
-         // Atualiza o display com os segundos restantes
+         //tempochega na metadfe começa a apitar
+          if(tempoRestante < 5){
+             tone(pinBuz, RE);
+          }
+          // Atualiza o display com os segundos restantes
            lcd_1.clear();
            lcd_1.print("Tempo:");
            lcd_1.setCursor(8, 0); // Move esquerda o texto
@@ -360,6 +362,19 @@ void loop(){
                    lcd_1.setCursor(0, 1); 
                    lcd_1.print("   Sim   *Nao    ");
                    delay(2000);
+                  //buzzer perdeu
+                  for (int thisNote = 0; thisNote < notesPerdeu * 2; thisNote = thisNote + 2) {
+                    divider = melodiaPerdeu[thisNote + 1];
+                    if (divider > 0) {
+                        noteDuration = (wholenotePerdeu) / divider;
+                    } else if (divider < 0) {
+                        noteDuration = (wholenotePerdeu) / abs(divider);
+                        noteDuration *= 1.5;
+                    }
+                    tone(pinBuz, melodiaPerdeu[thisNote], noteDuration*0.9);
+                    delay(noteDuration);
+                    noTone(pinBuz);
+                  }
                    RESET;
                  }
              }else if (bot2 == 0) {//nao
@@ -378,6 +393,19 @@ void loop(){
                    lcd_1.setCursor(0, 1); 
                    lcd_1.print("  *Sim    Nao    ");
                    delay(2000);
+                   //buzzer perdeu
+                   for (int thisNote = 0; thisNote < notesPerdeu * 2; thisNote = thisNote + 2) {
+                      divider = melodiaPerdeu[thisNote + 1];
+                      if (divider > 0) {
+                          noteDuration = (wholenotePerdeu) / divider;
+                      } else if (divider < 0) {
+                          noteDuration = (wholenotePerdeu) / abs(divider);
+                          noteDuration *= 1.5;
+                      }
+                      tone(pinBuz, melodiaPerdeu[thisNote], noteDuration*0.9);
+                      delay(noteDuration);
+                      noTone(pinBuz);
+                    }
                    RESET;
                  }
             }//chaves do else if
@@ -398,6 +426,19 @@ void loop(){
                    lcd_1.setCursor(0, 1); 
                    lcd_1.print("   Sim   *Nao    ");
                    delay(2000);
+                    //buzzer perdeu
+                    for (int thisNote = 0; thisNote < notesPerdeu * 2; thisNote = thisNote + 2) {
+                      divider = melodiaPerdeu[thisNote + 1];
+                      if (divider > 0) {
+                          noteDuration = (wholenotePerdeu) / divider;
+                      } else if (divider < 0) {
+                          noteDuration = (wholenotePerdeu) / abs(divider);
+                          noteDuration *= 1.5;
+                      }
+                      tone(pinBuz, melodiaPerdeu[thisNote], noteDuration*0.9);
+                      delay(noteDuration);
+                      noTone(pinBuz);
+                    }
                    RESET;
                  }
              }else if (bot2 == 0) {//nao
@@ -416,11 +457,25 @@ void loop(){
                    lcd_1.setCursor(0, 1); 
                    lcd_1.print("  *Sim    Nao    ");
                    delay(2000);
+                   //buzzer perdeu
+                    for (int thisNote = 0; thisNote < notesPerdeu * 2; thisNote = thisNote + 2) {
+                      divider = melodiaPerdeu[thisNote + 1];
+                      if (divider > 0) {
+                          noteDuration = (wholenotePerdeu) / divider;
+                      } else if (divider < 0) {
+                          noteDuration = (wholenotePerdeu) / abs(divider);
+                          noteDuration *= 1.5;
+                      }
+                      tone(pinBuz, melodiaPerdeu[thisNote], noteDuration*0.9);
+                      delay(noteDuration);
+                      noTone(pinBuz);
+                    }
                    RESET;
                  }
             }
            }
         }//chaves do for_pergunta 
+         noTone(pinBuz); //para de apitar o aviso que tempo ta acabando
         //saiu do for,tempo ja chego no 0 e botoes nao foram clicados (aperta == 0), = pular questao
         if(aperta == 0){
           pularQuestao = pularQuestao + 1; //para permitir que o jogador nao responda uma pergunta
@@ -431,6 +486,19 @@ void loop(){
             lcd_1.clear();
             lcd_1.print("Perdeu a chance");
             delay(2000);
+             //buzzer perdeu
+            for (int thisNote = 0; thisNote < notesPerdeu * 2; thisNote = thisNote + 2) {
+              divider = melodiaPerdeu[thisNote + 1];
+              if (divider > 0) {
+                  noteDuration = (wholenotePerdeu) / divider;
+              } else if (divider < 0) {
+                  noteDuration = (wholenotePerdeu) / abs(divider);
+                  noteDuration *= 1.5;
+              }
+              tone(pinBuz, melodiaPerdeu[thisNote], noteDuration*0.9);
+              delay(noteDuration);
+              noTone(pinBuz);
+            }
             RESET;
           }//chaves do if
         }//chaves do if
@@ -449,7 +517,10 @@ void loop(){
     delay(1000);
     int aperta = 0;
         for(int tempoRestante = 10;tempoRestante>=0;tempoRestante--){
-         // Atualiza o display com os segundos restantes
+          if(tempoRestante < 5){
+             tone(pinBuz, RE);
+          }
+          // Atualiza o display com os segundos restantes
            lcd_1.clear();
            lcd_1.print("Tempo:");
            lcd_1.setCursor(8, 0); // Move esquerda o texto
@@ -474,9 +545,23 @@ void loop(){
                 lcd_1.setCursor(0, 1); 
                 lcd_1.print("  *Sim    Nao    ");
                 delay(2000);
+                //buzzer perdeu
+                for (int thisNote = 0; thisNote < notesPerdeu * 2; thisNote = thisNote + 2) {
+                  divider = melodiaPerdeu[thisNote + 1];
+                  if (divider > 0) {
+                      noteDuration = (wholenotePerdeu) / divider;
+                  } else if (divider < 0) {
+                      noteDuration = (wholenotePerdeu) / abs(divider);
+                      noteDuration *= 1.5;
+                  }
+                  tone(pinBuz, melodiaPerdeu[thisNote], noteDuration*0.9);
+                  delay(noteDuration);
+                  noTone(pinBuz);
+                }
                 RESET;
             }//chaves do else if
         }//chaves do for_pergunta 
+        noTone(pinBuz);
         //saiu do for,tempo ja chego no 0 e botoes nao foram clicados = pular questao
         if(aperta == 0){
           lcd_1.clear();
@@ -485,10 +570,24 @@ void loop(){
           lcd_1.clear();
           lcd_1.print("Perdeu a chance");
           delay(2000);
+           //buzzer perdeu
+          for (int thisNote = 0; thisNote < notesPerdeu * 2; thisNote = thisNote + 2) {
+            divider = melodiaPerdeu[thisNote + 1];
+            if (divider > 0) {
+                noteDuration = (wholenotePerdeu) / divider;
+            } else if (divider < 0) {
+                noteDuration = (wholenotePerdeu) / abs(divider);
+                noteDuration *= 1.5;
+            }
+            tone(pinBuz, melodiaPerdeu[thisNote], noteDuration*0.9);
+            delay(noteDuration);
+            noTone(pinBuz);
+          }
           RESET;
         }
     lcd_1.clear();
-    lcd_1.print("Parabens <3");
+    lcd_1.print("  Parabens! <3  ");
+    
     //buzzer fim
      for (int thisNote = 0; thisNote < notesFinal * 2; thisNote = thisNote + 2) {
       divider = melodiaFinal[thisNote + 1];
@@ -508,13 +607,13 @@ void loop(){
 }
 
 void reinicia(){
-  lcd_1.clear();
   if(inicia == 0){//se botao foi clicado
     inicia = 1;
   }else{
-    //lcd_1.clear();
-    //lcd_1.print("Reiniciando...");
-    //delay(2000);
+    lcd_1.clear();
+    lcd_1.print("Reiniciando...");
+    delay(60000);
    	RESET;
   }
 }
+ 
