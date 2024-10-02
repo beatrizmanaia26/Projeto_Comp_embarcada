@@ -4,6 +4,9 @@
 //aviso que tempo ta acabando
 #define RE 294
 
+//avisa que acertou pergunta
+#define DO 262
+
 //buzzer vitoria
 #define NOTE_F4  349
 #define NOTE_GS4 415
@@ -142,7 +145,7 @@ void setup(){
 
 void loop(){
   //arrays para guardar os numeros aleatorios do led e da resposta da pessoa para compar e aparecer correto ou nao no display
-  inicia=2;
+ // inicia=2; //Para comecar na segunda fase
   int leds[10];
   int ledsResp[10];//guarda resposta da fase de memoria para compára com o que usuario pressionou
  
@@ -350,6 +353,7 @@ void loop(){
                  resp = "s";
                  aperta = 1; //botao pressionado
                  if(respostas_Faceis[variav] == resp){
+                   tone(pinBuz, DO, 1000);
                    lcd_1.clear();
                    lcd_1.print("Correto");
                    lcd_1.setCursor(0, 1); 
@@ -381,6 +385,7 @@ void loop(){
                 resp = "n";
                 aperta = 1;
                 if(respostas_Faceis[variav] == resp){
+                  tone(pinBuz, DO, 1000);
                   lcd_1.clear();
                   lcd_1.print("Correto");
                   lcd_1.setCursor(0, 1); 
@@ -414,6 +419,7 @@ void loop(){
                  resp = "s";
                  aperta = 1; //botao pressionado
                  if(respostas_Dificeis[variav] == resp){
+                   tone(pinBuz, DO, 1000);
                    lcd_1.clear();
                    lcd_1.print("Correto");
                    lcd_1.setCursor(0, 1); 
@@ -445,6 +451,7 @@ void loop(){
                 resp = "n";
                 aperta = 1;
                 if(respostas_Dificeis[variav] == resp){
+                  tone(pinBuz, DO, 1000);
                   lcd_1.clear();
                   lcd_1.print("Correto");
                   lcd_1.setCursor(0, 1); 
@@ -610,10 +617,12 @@ void reinicia(){
   if(inicia == 0){//se botao foi clicado
     inicia = 1;
   }else{
+    tone(pinBuz, DO);
+    noTone(pinBuz);
     lcd_1.clear();
     lcd_1.print("Reiniciando...");
-    delay(60000);
-   	RESET;
+    delay(100000);
+    RESET;
   }
 }
  
