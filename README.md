@@ -26,4 +26,7 @@ Segunda fase: perguntas faceis e dificeis:
    Terceira fase: pergunta final:
    -Após acertar todas as 5 perguntas aleatórias, aparece uma pergunta final que é fixa, se o jogador acertá-la, aparece uma música de vitória e o jogo é finalizado, caso contrário, o jogo reinicia.
 
+   Representação no tinkercad:
+   ![image](https://github.com/user-attachments/assets/a7602c42-dfd1-4258-8792-2ec4743c8514)
+
    
