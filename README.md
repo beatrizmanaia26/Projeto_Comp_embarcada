@@ -35,7 +35,7 @@ Imagem 6<br>
 Imagem 7<br>
 <img src="https://github.com/user-attachments/assets/f377b04e-4045-41ff-86d9-3f33fbd7059c" alt="image 8" width="300"/><br>
 Imagem 8<br>
-<img src="https://github.com/user-attachments/assets/f73804f3-c266-4e8d-b13e-9a8969e22830" alt="Arduino Project" width="300"/>
+<img src="https://github.com/user-attachments/assets/f73804f3-c266-4e8d-b13e-9a8969e22830" alt="Arduino Project" width="300"/><br>
 Imagem 9<br>
 <br>
 <br>
@@ -53,7 +53,7 @@ Imagem 9<br>
    Imagem 13<br>
    <br>
    ### Terceira fase: pergunta final:<br>
-   -Após acertar todas as 5 perguntas aleatórias, aparece uma pergunta final que é fixa (imagem 14), se o jogador acertá-la, aparece uma música de vitória e o jogo é finalizado (imagem 15), caso contrário, o jogo reinicia.<br>
+   -Após acertar todas as 5 perguntas aleatórias, aparece uma pergunta final que é fixa (imagem 14), se o jogador acertá-la, aparece uma música de vitória e o jogo é finalizado (imagem 15), caso contrário, o jogo reinicia.<br><br>
    <img src="https://github.com/user-attachments/assets/01f0eb36-46fd-431b-958b-f337ea85a69f" alt="Arduino Project" width="300"/><br>
    Imagem 14<br>
    <img src="https://github.com/user-attachments/assets/d1e708f0-3bc2-4257-a8f3-a35b9a5b04c9" alt="Imagem do WhatsApp" width="300"/><br>
