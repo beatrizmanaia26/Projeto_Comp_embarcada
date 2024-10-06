@@ -3,6 +3,7 @@ Projeto de jogo de memória no arduino
 Esse é um projeto do quarto semestre de Ciência da Computação da FEI, programado no Thinkercad, nele, @beatrizmanauia26 e @luaBortko2004 realizaram um jogo no arduino uno, de três fases. A primeira fase é um jogo da memória onde o jogador deve pressionar o botão e, após os 2 leds piscarem em uma sequência randômica, o jogador deve pressionar os botões para acertar a sequência.<br>
 
 <br>
+
 ### Materiais:<br>
 -2 protobord (por estilo).<br>
 -1 arduino UNO<br>
