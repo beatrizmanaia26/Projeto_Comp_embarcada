@@ -50,7 +50,6 @@ Imagem 9<br>
    Imagem 12<br>
    <img src="https://github.com/user-attachments/assets/12155c79-afe6-4b0d-84d5-f0de85151208" alt="Arduino Project" width="300"/><br>
    Imagem 13<br>
-   <br>
    ### Terceira fase: pergunta final:<br>
    -Após acertar todas as 5 perguntas aleatórias, aparece uma pergunta final que é fixa (imagem 14), se o jogador acertá-la, aparece uma música de vitória e o jogo é finalizado (imagem 15), caso contrário, o jogo reinicia.<br><br>
    <img src="https://github.com/user-attachments/assets/01f0eb36-46fd-431b-958b-f337ea85a69f" alt="Arduino Project" width="300"/><br>
