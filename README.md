@@ -56,12 +56,8 @@ Imagem 9<br>
    Imagem 14<br>
    <img src="https://github.com/user-attachments/assets/d1e708f0-3bc2-4257-a8f3-a35b9a5b04c9" alt="Imagem do WhatsApp" width="300"/><br>
    Imagem 15<br>
-   <br>
   ### Conclusão: <br>
   Realizar o projeto foi uma experiência muito enriquecedora, aprendemos muito. Todavia, o maior desafio encontrado foi achar uma maneira boa para resetar o arduino após apertar o botão. <br>
-
-  ### Representação no tinkercad:
-  <img src="https://github.com/user-attachments/assets/a7602c42-dfd1-4258-8792-2ec4743c8514" alt="image tinkercad" width="300"/><br>
 
   ### Representação na vida real:
   <img src="https://github.com/user-attachments/assets/70167849-d347-4e45-9cd6-40df4b2b1fba" alt="image real" width="300"/><br>
