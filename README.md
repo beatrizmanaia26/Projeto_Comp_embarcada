@@ -20,24 +20,20 @@ O primeiro botão, da esquerda para a direita, é o botão de iniciar e reinicia
 ![image](https://github.com/user-attachments/assets/11cc67f8-8792-488d-ab37-d316621953b0) <br>
 ### Primeira fase: Jogo da memória. <br>
   -Após iniciar o jogo pressionando o botão (imagem2 2), os leds piscam 10 vezes de maneiras aleatória(imagem 3) e, após terminar, o jogador deve acertar a sequência pressionando os outros 2 botões(imagem 4) (o da esquerda representa o led verde e o da direita, o amarelo)(imagem 5). Caso o jogador erre, o jogo toca uma música de derrota (imagem 6 e 7) e é reiniciado, caso ele acerte toda a sequência, toca uma música de vitória (imagem 8) e passa para a segunda fase. (imagem 9)<br>
-  ![image](https://github.com/user-attachments/assets/ba5d3602-e90f-4cb9-8663-2b0d1f2e934f)<br>
+  ![image](https://github.com/user-attachments/assets/ba5d3602-e90f-4cb9-8663-2b0d1f2e934f)
   Imagem 2<br>
-  ![image](https://github.com/user-attachments/assets/ed3033db-9d74-459e-a6aa-0b6d459ac69d)<br>
+  ![image](https://github.com/user-attachments/assets/ed3033db-9d74-459e-a6aa-0b6d459ac69d)
   Imagem 3<br>
- ![image](https://github.com/user-attachments/assets/47e74f4b-d521-4430-93da-14f418d2c1a0)<br>
+ ![image](https://github.com/user-attachments/assets/47e74f4b-d521-4430-93da-14f418d2c1a0)
  Imagem 4<br>
- ![image](https://github.com/user-attachments/assets/75a04f2f-48c9-4231-9bc7-85158c8675ad)<br>
+ ![image](https://github.com/user-attachments/assets/75a04f2f-48c9-4231-9bc7-85158c8675ad)
  Imagem 5<br>
- ![Imagem do WhatsApp de 2024-10-06 à(s) 19 58 01_95fd32b3](https://github.com/user-attachments/assets/e81d7348-1679-428e-8da5-768339949052)<br>
+ ![Imagem do WhatsApp de 2024-10-06 à(s) 19 58 01_95fd32b3](https://github.com/user-attachments/assets/e81d7348-1679-428e-8da5-768339949052)
  Imagem 6<br>
- ![Imagem do WhatsApp de 2024-10-06 à(s) 19 56 59_b465549b](https://github.com/user-attachments/assets/e319d3aa-c1a3-433b-a675-bd6cb59d1280)<br>
+ ![Imagem do WhatsApp de 2024-10-06 à(s) 19 56 59_b465549b](https://github.com/user-attachments/assets/e319d3aa-c1a3-433b-a675-bd6cb59d1280)
  Imagem 7<br>
- ![image](https://github.com/user-attachments/assets/f377b04e-4045-41ff-86d9-3f33fbd7059c)<br>
+ ![image](https://github.com/user-attachments/assets/f377b04e-4045-41ff-86d9-3f33fbd7059c) 
  Imagem 8<br>
-
-
-
-
 <br>
 <br>
 ### Segunda fase: perguntas faceis e dificeis:<br>
@@ -47,7 +43,7 @@ O primeiro botão, da esquerda para a direita, é o botão de iniciar e reinicia
    ### Terceira fase: pergunta final:<br>
    -Após acertar todas as 5 perguntas aleatórias, aparece uma pergunta final que é fixa, se o jogador acertá-la, aparece uma música de vitória e o jogo é finalizado, caso contrário, o jogo reinicia.<br>
 <br>
-  ###Conclusão:<br>
+  ### Conclusão: <br>
   Realizar o projeto foi uma experiência muito enriquecedora, aprendemos muito. Todavia, o maior desafio encontrado foi achar uma maneira boa para resetar o arduino após apertar o botão. <br>
 
   ### Representação no tinkercad:
