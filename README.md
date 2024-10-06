@@ -38,8 +38,6 @@ Imagem 7<br>
 Imagem 8<br>
 <img src="https://github.com/user-attachments/assets/f73804f3-c266-4e8d-b13e-9a8969e22830" alt="Arduino Project" width="300"/><br>
 Imagem 9<br>
-<br>
-<br>
 ### Segunda fase: perguntas faceis e dificeis:<br>
    -Há uma ordem para a dificuldade das perguntas, as três primeiras perguntas são faceis e as duas últimas são dificeis (imagem 10). Criamos 5 opções de perguntas faceis e dificeis para que, na hora de aparecer para o jogador, elas sejam aleatoriezadas. Para responbder a pergunta, o segundo botão é de "sim" e o terceiro (botão mais a direita) é o de "não", o jogador tem 10 segundos (imagem 11), faltando 5 segundos o buzzer começa a apitar.
    -O jogador pode pular uma questão, isso ocorre se ele não responder a pergunta nos 10 segundos que aparecem no display, porém ele só pode pular uma pergunta, caso tente pular outra, o jogo reinicia. Além disso, se o jogador errar a resposta o jogo também reinicia e aparece uma música de derrota (imagem 12). Caso ele acerte, aparece um som de acerto e continua a sequência de perguntas (imagem 13).<br>
