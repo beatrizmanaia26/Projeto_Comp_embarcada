@@ -17,9 +17,8 @@ Esse é um projeto do quarto semestre de Ciência da Computação da FEI, progra
 ### Funcionamento: <br>
 O primeiro botão, da esquerda para a direita, é o botão de iniciar e reiniciar o jogo.<br>
 <br>
-![image](https://github.com/user-attachments/assets/2ea4a413-15b5-43bb-9542-455538caeb82)
-![image](https://github.com/user-attachments/assets/d296c479-9e7a-4f16-a2d6-aa19f0b6a471)
 
+![image](https://github.com/user-attachments/assets/d296c479-9e7a-4f16-a2d6-aa19f0b6a471)
 <br>
 ### Primeira fase: Jogo da memória. <br>
   -Após iniciar o jogo pressionando o botão (imagem2 2), os leds piscam 10 vezes de maneiras aleatória(imagem 3) e, após terminar, o jogador deve acertar a sequência pressionando os outros 2 botões(imagem 4) (o da esquerda representa o led verde e o da direita, o amarelo)(imagem 5). Caso o jogador erre, o jogo toca uma música de derrota (imagem 6 e 7) e é reiniciado, caso ele acerte toda a sequência, toca uma música de vitória (imagem 8) e passa para a segunda fase. (imagem 9)<br>
