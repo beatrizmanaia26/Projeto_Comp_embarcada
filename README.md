@@ -57,7 +57,9 @@ Imagem 9<br>
   ### Representação na vida real:
   <img src="https://github.com/user-attachments/assets/70167849-d347-4e45-9cd6-40df4b2b1fba" alt="image real" width="300"/><br>
 
-   
+   ### Execução:<br>
+  [Assistir vídeo sobre o projeto](https://www.youtube.com/watch?v=otpojM3XSAw)
 
+   
    
    
